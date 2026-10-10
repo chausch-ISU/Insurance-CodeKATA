@@ -123,4 +123,56 @@ public class ClaimEvaluatorTest {
 
     }
 
+    @Test
+    void claimDeniedIfDeductibleGreaterThanClaim(){
+        Policy policy = new Policy(
+                "POL",
+                LocalDate.of(2026,1,1),
+                LocalDate.of(2026,2,2),
+                new BigDecimal("1500"),
+                new BigDecimal("3000"),
+                EnumSet.of(IncidentType.WATER_DAMAGE)
+        );
+
+        Claim claim = new Claim(
+                "POL",
+                IncidentType.WATER_DAMAGE,
+                new BigDecimal("1000"),
+                LocalDate.of(2026, 1, 15)
+        );
+
+        ClaimResult result = new ClaimEvaluator().evaluate(claim, policy);
+
+        assertFalse(result.isApproved());
+        assertEquals(ReasonCode.ZERO_PAYOUT, result.getReasonCode());
+        assertEquals(0, new BigDecimal("0").compareTo(result.getPayout()));
+
+    }
+
+    @Test
+    void claimDeniedIfDeductibleEqualToClaim(){
+        Policy policy = new Policy(
+                "POL",
+                LocalDate.of(2026,1,1),
+                LocalDate.of(2026,2,2),
+                new BigDecimal("1000"),
+                new BigDecimal("3000"),
+                EnumSet.of(IncidentType.WATER_DAMAGE)
+        );
+
+        Claim claim = new Claim(
+                "POL",
+                IncidentType.WATER_DAMAGE,
+                new BigDecimal("1000"),
+                LocalDate.of(2026, 1, 15)
+        );
+
+        ClaimResult result = new ClaimEvaluator().evaluate(claim, policy);
+
+        assertFalse(result.isApproved());
+        assertEquals(ReasonCode.ZERO_PAYOUT, result.getReasonCode());
+        assertEquals(0, new BigDecimal("0").compareTo(result.getPayout()));
+
+    }
+
 }

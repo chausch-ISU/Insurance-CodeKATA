@@ -21,8 +21,15 @@ public class ClaimEvaluator {
             );
         }
 
-        BigDecimal payout =
-                claim.getAmountClaimed().subtract(policy.getDeductible());
+        if (claim.getAmountClaimed().compareTo(policy.getDeductible()) <= 0) {
+            return new ClaimResult(
+                    false,
+                    BigDecimal.ZERO,
+                    ReasonCode.ZERO_PAYOUT
+            );
+        }
+
+        BigDecimal payout = claim.getAmountClaimed().subtract(policy.getDeductible());
 
         if (payout.compareTo(policy.getCoverageLimit()) > 0) {
             payout = policy.getCoverageLimit();
