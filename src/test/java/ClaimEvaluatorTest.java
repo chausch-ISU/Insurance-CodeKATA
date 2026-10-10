@@ -97,4 +97,30 @@ public class ClaimEvaluatorTest {
         assertEquals(0, new BigDecimal("2000").compareTo(result2.getPayout()));
     }
 
+    @Test
+    void claimDoesNotPayMoreThanCoverageLimit(){
+        Policy policy = new Policy(
+                "POL",
+                LocalDate.of(2026,1,1),
+                LocalDate.of(2026,2,2),
+                new BigDecimal("1000"),
+                new BigDecimal("3000"),
+                EnumSet.of(IncidentType.WATER_DAMAGE)
+        );
+
+        Claim claim = new Claim(
+                "POL",
+                IncidentType.WATER_DAMAGE,
+                new BigDecimal("6000"),
+                LocalDate.of(2026, 1, 15)
+        );
+
+        ClaimResult result = new ClaimEvaluator().evaluate(claim, policy);
+
+        assertTrue(result.isApproved());
+        assertEquals(ReasonCode.APPROVED, result.getReasonCode());
+        assertEquals(0, new BigDecimal("2000").compareTo(result.getPayout()));
+
+    }
+
 }

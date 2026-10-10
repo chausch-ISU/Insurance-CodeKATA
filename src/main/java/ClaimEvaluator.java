@@ -21,6 +21,8 @@ public class ClaimEvaluator {
             );
         }
 
+
+
         BigDecimal payout = claim.getAmountClaimed().subtract(policy.getDeductible());
         ClaimResult result = new ClaimResult(true, payout, ReasonCode.APPROVED);
 
