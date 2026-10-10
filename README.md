@@ -46,8 +46,13 @@ This executes the JUnit tests in `src/test/java/ClaimEvaluatorTest.java`
 
 ## Reflection
 
-I don't feel like there were too many trade-offs to be made in the process of
-writing this program. If I had been more strict on my own time, 
+For this program, BigDecimal was decided to be used for money calculations to 
+increase accuracy, and enums were used for fixed values to maintain simplicity. 
+I chose to use a separate evaluator class was used for convenient testing, and a 
+concrete demo to quickly and easily demonstrate the evaluator. The dates on 
+policies are inclusive and zero-payout claims are counted as unapproved.
+
+If I had been more strict on my own time, 
 or had I completed this task in one sitting rather than a few
 pieces at a time, I am sure I would
 have had quite the similar outcome, minus a few tests that I had accounted 

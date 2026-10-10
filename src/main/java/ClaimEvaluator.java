@@ -8,8 +8,7 @@ public class ClaimEvaluator {
         LocalDate incidentDate = claim.getIncidentDate();
 
         /*Checks for discrepancies in order of incident type -> date range -> payout amount
-        * This order should make sure the most significant reason code is used for rejections
-        * since only one can be returned
+        * If multiple rules fail, priority is described above.
         * */
 
         //check if the correct incident is covered
@@ -44,7 +43,7 @@ public class ClaimEvaluator {
             payout = policy.getCoverageLimit();
         }
 
-        //final result given everything has worked properly
+
         ClaimResult result = new ClaimResult(true, payout, ReasonCode.APPROVED);
 
         return result;
