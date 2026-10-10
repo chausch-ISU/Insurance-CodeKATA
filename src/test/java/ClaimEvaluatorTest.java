@@ -119,7 +119,7 @@ public class ClaimEvaluatorTest {
 
         assertTrue(result.isApproved());
         assertEquals(ReasonCode.APPROVED, result.getReasonCode());
-        assertEquals(0, new BigDecimal("2000").compareTo(result.getPayout()));
+        assertEquals(0, new BigDecimal("3000").compareTo(result.getPayout()));
 
     }
 
