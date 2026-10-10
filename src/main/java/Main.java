@@ -27,7 +27,7 @@ public class Main {
 
         System.out.println("Claim evaluated successfully");
         System.out.println("Was the claim approved: " + result.isApproved());
-        System.out.println("Result ReasonCode: " + result.getReasonCode());
+        System.out.println("Reason: " + result.getReasonCode());
         System.out.println("Payout Amount: " + result.getPayout());
     }
 

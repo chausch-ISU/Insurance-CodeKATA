@@ -1,89 +1,63 @@
-# Insurance-CodeKATA
+## Requirements
 
-## The Problem
+- JDK 8 or newer
+- Apache Maven 3.9.x
+- Java and Maven available on your terminal's PATH
 
-You’ve been asked to implement the core logic for an insurance claims processing system. The system should evaluate incoming claims based on a few business rules and return a final payout amount. This version of the kata is designed to be completed in 90 minutes or less and focuses on essential logic and test-driven development (TDD).
+Maven downloads the required dependencies during the first build.
 
----
+## Run the application
 
-## Business Requirements
-
-### Submitting a Claim
-
-**As an** insured person, **I want** to submit a claim with incident details, **so that** I can receive a payout.
-
-Each claim has:
-- `policyId`
-- `incidentType` (e.g., accident, theft, fire, water damage)
-- `incidentDate`
-- `amountClaimed`
-
-Example:
-```ts
-const exampleClaim = {
-  policyId: 'POL123',
-  incidentType: 'fire',
-  incidentDate: new Date('2023-06-15'),
-  amountClaimed: 3000,
-};
+Open a terminal in the project directory and run:
+```bash
+mvn clean compile
+java -cp target/classes Main
 ```
 
----
+The application evaluates the example policy and claim defined in
+`src/main/java/Main.java`, then prints the approval status, reason
+code, and payout.
 
-### Example Policy Data
+Expected output for the current example:
 
-To help support your solution, here is an example of what policies might look like:
-
-```ts
-type IncidentType = 'accident' | 'theft' | 'fire' | 'water damage';
-
-interface Policy {
-  policyId: string;
-  startDate: Date;
-  endDate: Date;
-  deductible: number;
-  coverageLimit: number;
-  coveredIncidents: IncidentType[];
-}
-
-const examplePolicies: Policy[] = [
-  {
-    policyId: 'POL123',
-    startDate: new Date('2023-01-01'),
-    endDate: new Date('2024-01-01'),
-    deductible: 500,
-    coverageLimit: 10000,
-    coveredIncidents: ['accident', 'fire'],
-  },
-  {
-    policyId: 'POL456',
-    startDate: new Date('2022-06-01'),
-    endDate: new Date('2025-06-01'),
-    deductible: 250,
-    coverageLimit: 50000,
-    coveredIncidents: ['accident', 'theft', 'fire', 'water damage'],
-  },
-];
+```text
+Claim evaluated successfully
+Was the claim approved: false
+Reason: POLICY_INACTIVE
+Payout Amount: 0
 ```
 
----
+The rejection is expected because the incident occurred before the
+policy's start date.
 
-### Evaluating a Claim
+To evaluate a different example, edit the policy or claim in
+`Main.java`, then repeat the build and run commands. The application
+does not currently accept interactive input or command-line arguments.
 
-Each claim evaluation should return a result with the following fields:
+## Run the tests
 
-- `approved: boolean` – Was the claim accepted?
-- `payout: number` – Final payout amount
-- `reasonCode: string` – Explanation code (e.g., `APPROVED`, `POLICY_INACTIVE`, `NOT_COVERED`, `ZERO_PAYOUT`)
+From the project directory, run:
 
----
+```bash
+mvn test
+```
 
-### Business Rules
+This executes the JUnit tests in `src/test/java/ClaimEvaluatorTest.java`
 
-- The policy must be active on the `incidentDate`
-- The `incidentType` must be included in the policy’s `coveredIncidents`
-- Payout = `amountClaimed - deductible`
-- If payout is zero or negative, return 0 with reasonCode: `ZERO_PAYOUT`
-- The payout may not exceed the `coverageLimit`
+## Reflection
 
----
+I don't feel like there were too many trade-offs to be made in the process of
+writing this program. If I had been more strict on my own time, 
+or had I completed this task in one sitting rather than a few
+pieces at a time, I am sure I would
+have had quite the similar outcome, minus a few tests that I had accounted 
+for in the evaluator prior to explicitly testing them.
+
+Given a larger amount 
+of time to dedicate to this project, however, a fully interactive program that
+allows a user to create and evaluate policies and claims quickly and easily
+would have been the obvious next step. While the main rules and 
+boundaries are already accounted for in tests and the logic of the
+evaluator, more comprehensive testing could also have taken place, including
+amounts with decimal values, multiple covered incidents, zero deductible,
+or multiple conditions for rejection.
