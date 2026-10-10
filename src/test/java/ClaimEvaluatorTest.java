@@ -59,7 +59,7 @@ public class ClaimEvaluatorTest {
     }
 
     @Test
-    void claimPaysOnlyWhenActive(){
+    void claimDoesNotPayIfBeforePolicyStart(){
         Policy policy = new Policy(
                 "POL",
                 LocalDate.of(2026,1,1),
@@ -81,6 +81,84 @@ public class ClaimEvaluatorTest {
         assertFalse(result.isApproved());
         assertEquals(ReasonCode.POLICY_INACTIVE, result.getReasonCode());
         assertEquals(0, new BigDecimal("0").compareTo(result.getPayout()));
+
+    }
+
+    @Test
+    void claimDoesNotPayIfAfterPolicyStart(){
+        Policy policy = new Policy(
+                "POL",
+                LocalDate.of(2026,1,1),
+                LocalDate.of(2026,2,2),
+                new BigDecimal("1000"),
+                new BigDecimal("10000"),
+                EnumSet.of(IncidentType.WATER_DAMAGE)
+        );
+
+        Claim claim = new Claim(
+                "POL",
+                IncidentType.WATER_DAMAGE,
+                new BigDecimal("3000"),
+                LocalDate.of(2027, 6, 6)
+        );
+
+        ClaimResult result = new ClaimEvaluator().evaluate(claim, policy);
+
+        assertFalse(result.isApproved());
+        assertEquals(ReasonCode.POLICY_INACTIVE, result.getReasonCode());
+        assertEquals(0, new BigDecimal("0").compareTo(result.getPayout()));
+
+    }
+
+    @Test
+    void claimPaysIfMadeOnStartDateOfPolicy(){
+        Policy policy = new Policy(
+                "POL",
+                LocalDate.of(2026,1,1),
+                LocalDate.of(2026,2,2),
+                new BigDecimal("1000"),
+                new BigDecimal("10000"),
+                EnumSet.of(IncidentType.WATER_DAMAGE)
+        );
+
+        Claim claim = new Claim(
+                "POL",
+                IncidentType.WATER_DAMAGE,
+                new BigDecimal("3000"),
+                LocalDate.of(2026, 1, 1)
+        );
+
+        ClaimResult result = new ClaimEvaluator().evaluate(claim, policy);
+
+        assertTrue(result.isApproved());
+        assertEquals(ReasonCode.APPROVED, result.getReasonCode());
+        assertEquals(0, new BigDecimal("2000").compareTo(result.getPayout()));
+
+    }
+
+    @Test
+    void claimPaysIfMadeOnEndDateOfPolicy(){
+        Policy policy = new Policy(
+                "POL",
+                LocalDate.of(2026,1,1),
+                LocalDate.of(2026,2,2),
+                new BigDecimal("1000"),
+                new BigDecimal("10000"),
+                EnumSet.of(IncidentType.WATER_DAMAGE)
+        );
+
+        Claim claim = new Claim(
+                "POL",
+                IncidentType.WATER_DAMAGE,
+                new BigDecimal("3000"),
+                LocalDate.of(2026, 2, 2)
+        );
+
+        ClaimResult result = new ClaimEvaluator().evaluate(claim, policy);
+
+        assertTrue(result.isApproved());
+        assertEquals(ReasonCode.APPROVED, result.getReasonCode());
+        assertEquals(0, new BigDecimal("2000").compareTo(result.getPayout()));
 
     }
 
