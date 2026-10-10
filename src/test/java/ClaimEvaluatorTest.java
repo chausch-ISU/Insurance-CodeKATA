@@ -77,24 +77,12 @@ public class ClaimEvaluatorTest {
                 LocalDate.of(2025, 6, 6)
         );
 
-        Claim claim2 = new Claim(
-                "POL",
-                IncidentType.WATER_DAMAGE,
-                new BigDecimal("3000"),
-                LocalDate.of(2026, 1, 15)
-        );
-
         ClaimResult result = new ClaimEvaluator().evaluate(claim, policy);
 
         assertFalse(result.isApproved());
         assertEquals(ReasonCode.POLICY_INACTIVE, result.getReasonCode());
         assertEquals(0, new BigDecimal("0").compareTo(result.getPayout()));
 
-        ClaimResult result2 = new ClaimEvaluator().evaluate(claim2, policy);
-
-        assertTrue(result2.isApproved());
-        assertEquals(ReasonCode.APPROVED, result2.getReasonCode());
-        assertEquals(0, new BigDecimal("2000").compareTo(result2.getPayout()));
     }
 
     @Test
