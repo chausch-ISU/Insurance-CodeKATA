@@ -52,6 +52,8 @@ I used a separate evaluator class to make rules easy to test, and a
 concrete demo kept the scope of the project smaller, though
 this does disallow any interactive input. The dates on 
 policies are inclusive and zero-payout claims are counted as unapproved. The
+evaluator also assumes valid input and that the given policy ID matches
+the claim's policy ID.
 
 Given a larger amount 
 of time to dedicate to this project, a fully interactive program that
