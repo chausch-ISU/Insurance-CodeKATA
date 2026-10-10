@@ -240,9 +240,6 @@ public class ClaimEvaluatorTest {
 
     }
 
-    /*  test already covered in evaluator behavior, just
-        adding to make deductible calculation order more clear
-     */
     @Test
     void claimedPayoutAboveCoverageLimitDoesNotImmediatelyTriggerPayoutCap(){
         Policy policy = new Policy(

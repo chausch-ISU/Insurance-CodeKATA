@@ -48,18 +48,13 @@ This executes the JUnit tests in `src/test/java/ClaimEvaluatorTest.java`
 
 For this program, BigDecimal was decided to be used for money calculations to 
 increase accuracy, and enums were used for fixed values to maintain simplicity. 
-I chose to use a separate evaluator class was used for convenient testing, and a 
-concrete demo to quickly and easily demonstrate the evaluator. The dates on 
-policies are inclusive and zero-payout claims are counted as unapproved.
-
-If I had been more strict on my own time, 
-or had I completed this task in one sitting rather than a few
-pieces at a time, I am sure I would
-have had quite the similar outcome, minus a few tests that I had accounted 
-for in the evaluator prior to explicitly testing them.
+I used a separate evaluator class to make rules easy to test, and a 
+concrete demo kept the scope of the project smaller, though
+this does disallow any interactive input. The dates on 
+policies are inclusive and zero-payout claims are counted as unapproved. The
 
 Given a larger amount 
-of time to dedicate to this project, however, a fully interactive program that
+of time to dedicate to this project, a fully interactive program that
 allows a user to create and evaluate policies and claims quickly and easily
 would have been the obvious next step. While the main rules and 
 boundaries are already accounted for in tests and the logic of the
