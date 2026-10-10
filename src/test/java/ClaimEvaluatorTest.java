@@ -26,7 +26,6 @@ public class ClaimEvaluatorTest {
                 LocalDate.of(2026, 1, 15)
         );
 
-        //assume method will be called evaluate
         ClaimResult result = new ClaimEvaluator().evaluate(claim, policy);
 
         assertTrue(result.isApproved());
@@ -161,6 +160,34 @@ public class ClaimEvaluatorTest {
         assertEquals(ReasonCode.ZERO_PAYOUT, result.getReasonCode());
         assertEquals(0, new BigDecimal("0").compareTo(result.getPayout()));
 
+    }
+
+    /*  test already covered in evaluator behavior, just
+        adding to make deductible calculation order more clear
+     */
+    @Test
+    void claimedPayoutAboveCoverageLimitDoesNotImmediatelyTriggerPayoutCap(){
+        Policy policy = new Policy(
+                "POL",
+                LocalDate.of(2026,1,1),
+                LocalDate.of(2026,2,2),
+                new BigDecimal("1000"),
+                new BigDecimal("3500"),
+                EnumSet.of(IncidentType.WATER_DAMAGE)
+        );
+
+        Claim claim = new Claim(
+                "POL",
+                IncidentType.WATER_DAMAGE,
+                new BigDecimal("4000"),
+                LocalDate.of(2026, 1, 15)
+        );
+
+        ClaimResult result = new ClaimEvaluator().evaluate(claim, policy);
+
+        assertTrue(result.isApproved());
+        assertEquals(ReasonCode.APPROVED, result.getReasonCode());
+        assertEquals(0, new BigDecimal("3000").compareTo(result.getPayout()));
     }
 
 }
