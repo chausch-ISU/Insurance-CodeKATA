@@ -1,8 +1,5 @@
 # Insurance-CodeKATA
 
-
-# 📋 Insurance Claims Processing Kata
-
 ## The Problem
 
 You’ve been asked to implement the core logic for an insurance claims processing system. The system should evaluate incoming claims based on a few business rules and return a final payout amount. This version of the kata is designed to be completed in 90 minutes or less and focuses on essential logic and test-driven development (TDD).
