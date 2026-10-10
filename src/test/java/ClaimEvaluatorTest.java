@@ -85,7 +85,7 @@ public class ClaimEvaluatorTest {
     }
 
     @Test
-    void claimDoesNotPayIfAfterPolicyStart(){
+    void claimDoesNotPayIfAfterPolicyEnd(){
         Policy policy = new Policy(
                 "POL",
                 LocalDate.of(2026,1,1),
